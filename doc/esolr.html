@@ -1,0 +1,153 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Module esolr</title>
+<link rel="stylesheet" type="text/css" href="stylesheet.css" title="EDoc">
+</head>
+<body bgcolor="white">
+<div class="navbar"><a name="#navbar_top"></a><table width="100%" border="0" cellspacing="0" cellpadding="2" summary="navigation bar"><tr><td><a href="overview-summary.html" target="overviewFrame">Overview</a></td><td><a href="http://www.erlang.org/"><img src="erlang.png" align="right" border="0" alt="erlang logo"></a></td></tr></table></div>
+<hr>
+
+<h1>Module esolr</h1>
+<ul class="index"><li><a href="#description">Description</a></li><li><a href="#index">Function Index</a></li><li><a href="#functions">Function Details</a></li></ul><b>esolr</b> , a http/xml client library to the apache Solr search server.
+
+<p><b>Version:</b> alpha, really</p>
+<p><b>Authors:</b> Pablo Polvorin (<a href="mailto:ppolv@yahoo.com.ar"><tt>ppolv@yahoo.com.ar</tt></a>).</p>
+
+<h2><a name="description">Description</a></h2><b>esolr</b> , a http/xml client library to the apache Solr search server.
+<h2><a name="index">Function Index</a></h2>
+<table width="100%" border="1" cellspacing="0" cellpadding="2" summary="function index"><tr><td valign="top"><a href="#add-1">add/1</a></td><td>add the given documents to the index.</td></tr>
+<tr><td valign="top"><a href="#commit-0">commit/0</a></td><td> send a "commit" command to the server.</td></tr>
+<tr><td valign="top"><a href="#delete-1">delete/1</a></td><td> delete one or more documents.</td></tr>
+<tr><td valign="top"><a href="#optimize-0">optimize/0</a></td><td> send a "optimize" command to the server.</td></tr>
+<tr><td valign="top"><a href="#search-2">search/2</a></td><td>search the index.</td></tr>
+<tr><td valign="top"><a href="#set_auto_commit-1">set_auto_commit/1</a></td><td> sets the autocommit behavior of the library.</td></tr>
+<tr><td valign="top"><a href="#set_auto_optimize-1">set_auto_optimize/1</a></td><td> sets the auto optimize behavior of the library.</td></tr>
+<tr><td valign="top"><a href="#start-0">start/0</a></td><td>same as start([]).</td></tr>
+<tr><td valign="top"><a href="#start-1">start/1</a></td><td>start the esolr process.</td></tr>
+<tr><td valign="top"><a href="#start_link-0">start_link/0</a></td><td>same as start_link([]).</td></tr>
+<tr><td valign="top"><a href="#start_link-1">start_link/1</a></td><td></td></tr>
+<tr><td valign="top"><a href="#stop-0">stop/0</a></td><td> stop the esolr process.</td></tr>
+</table>
+
+<h2><a name="functions">Function Details</a></h2>
+
+<h3 class="function"><a name="add-1">add/1</a></h3>
+<div class="spec">
+<p><tt>add(Docs::Documents) -&gt; Result</tt>
+<ul class="definitions"><li><tt>Documents = [Doc]</tt></li>
+<li><tt>Doc = {doc, Fields}</tt></li>
+<li><tt>Fields = [Field]</tt></li>
+<li><tt>Field = {Name, Value}</tt></li>
+<li><tt>Name = atom()</tt></li>
+<li><tt>Value = IOString</tt></li>
+</ul></p>
+</div><p>add the given documents to the index
+	</p>
+
+<h3 class="function"><a name="commit-0">commit/0</a></h3>
+<div class="spec">
+<p><tt>commit() -&gt; term()</tt></p>
+</div><p> send a "commit" command to the server</p>
+<p><b>See also:</b> <a href="#set_auto_commit-1">set_auto_commit/1</a>.</p>
+
+<h3 class="function"><a name="delete-1">delete/1</a></h3>
+<div class="spec">
+<p><tt>delete(Del::Delete) -&gt; Response</tt>
+<ul class="definitions"><li><tt>Delete = {id, Id} | {q, Query}</tt></li>
+<li><tt>Id = string()</tt></li>
+<li><tt>Query = string()</tt></li>
+<li><tt>Response = ok | {error, Reason}</tt></li>
+</ul></p>
+</div><p> delete one or more documents.</p>
+
+<h3 class="function"><a name="optimize-0">optimize/0</a></h3>
+<div class="spec">
+<p><tt>optimize() -&gt; term()</tt></p>
+</div><p> send a "optimize" command to the server
+</p>
+<p><b>See also:</b> <a href="#set_auto_optimize-1">set_auto_optimize/1</a>.</p>
+
+<h3 class="function"><a name="search-2">search/2</a></h3>
+<div class="spec">
+<p><tt>search(Query, Options::SearchOptions) -&gt; SearchResult</tt>
+<ul class="definitions"><li><tt>Query = string()</tt></li>
+<li><tt>SearchOptions = [SearchOption]</tt></li>
+<li><tt>SearchOption = {fields, SearchFields} | {start, StartRow} | {count, Count} | {sort, [SortSpecification]} | {highlight, HihhligthFields}</tt></li>
+<li><tt>SearchFields = string()</tt></li>
+<li><tt>HihhligthFields = string()</tt></li>
+<li><tt>StartRow = integer()</tt></li>
+<li><tt>Count = integer()</tt></li>
+<li><tt>SortSpecification = {Name, Sort}</tt></li>
+<li><tt>Sort = asc | desc</tt></li>
+<li><tt>SearchResult = {ok, RespAttrs, Docs, AdditionalInfo} | {error, Reason}</tt></li>
+<li><tt>RespAttrs = [{Name, Value}]</tt></li>
+<li><tt>Docs = [{doc, Fields}]</tt></li>
+<li><tt>Fields = [{Name, Value}]</tt></li>
+<li><tt>Name = atom()</tt></li>
+<li><tt>Value = IOString</tt></li>
+<li><tt>AdditionalInfo = term()</tt></li>
+</ul></p>
+</div><p><p>search the index</p>
+
+      AdditionalInfo contains additional information present in the response
+      not directly parsed by esolr, like highlight info
+</p>
+
+<h3 class="function"><a name="set_auto_commit-1">set_auto_commit/1</a></h3>
+<div class="spec">
+<p><tt>set_auto_commit(AutoCommitMode::Mode) -&gt; ok</tt>
+<ul class="definitions"><li><tt>Mode = false | always | {time, integer()}</tt></li>
+</ul></p>
+</div><p><p> sets the autocommit behavior of the library.</p>
+
+       {time,N} to do an automatic commit every N miliseconds, if there are uncommited updates <br>
+ 		always :   esolr will automatically commit after each update.     <br>
+ 		false :    esolr won't commit automatically.</p>
+
+<h3 class="function"><a name="set_auto_optimize-1">set_auto_optimize/1</a></h3>
+<div class="spec">
+<p><tt>set_auto_optimize(AutoOptimizeMode::Mode) -&gt; ok</tt>
+<ul class="definitions"><li><tt>Mode = false | {time, integer()}</tt></li>
+</ul></p>
+</div><p><p> sets the auto optimize behavior of the library.</p>
+
+		<p>Similar to set_auto_commit/1, esolr can periodically send "optimize" commands to the server.</p>
+
+       {time,N}: to do an automatic optimizet every N miliseconds <br>
+ 		false :    esolr won't send optimize commands automatically. <br></p>
+
+<h3 class="function"><a name="start-0">start/0</a></h3>
+<div class="spec">
+<p><tt>start() -&gt; term()</tt></p>
+</div><p>same as start([])</p>
+
+<h3 class="function"><a name="start-1">start/1</a></h3>
+<div class="spec">
+<p><tt>start(Options::[Option]) -&gt; Result</tt>
+<ul class="definitions"><li><tt>Option = {search_url, URL} | {update_url, URL} | {add_timeout, integer()} | {search_timeout, integer()} | {delete_timeout, integer()} | {commit_timeout, integer()} | {optimize_timeout, integer()}</tt></li>
+<li><tt>URL = string()</tt></li>
+</ul></p>
+</div><p>start the esolr process</p>
+
+<h3 class="function"><a name="start_link-0">start_link/0</a></h3>
+<div class="spec">
+<p><tt>start_link() -&gt; term()</tt></p>
+</div><p>same as start_link([])</p>
+
+<h3 class="function"><a name="start_link-1">start_link/1</a></h3>
+<div class="spec">
+<p><tt>start_link() -&gt; term()</tt></p>
+</div>
+<p><b>See also:</b> <a href="#start-1">start/1</a>.</p>
+
+<h3 class="function"><a name="stop-0">stop/0</a></h3>
+<div class="spec">
+<p><tt>stop() -&gt; term()</tt></p>
+</div><p> stop the esolr process</p>
+<hr>
+
+<div class="navbar"><a name="#navbar_bottom"></a><table width="100%" border="0" cellspacing="0" cellpadding="2" summary="navigation bar"><tr><td><a href="overview-summary.html" target="overviewFrame">Overview</a></td><td><a href="http://www.erlang.org/"><img src="erlang.png" align="right" border="0" alt="erlang logo"></a></td></tr></table></div>
+<p><i>Generated by EDoc, Feb 29 2008, 01:10:58.</i></p>
+</body>
+</html>

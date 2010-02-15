@@ -1,0 +1,37 @@
+json parser (RFC4627.erl) from http://www.lshift.net/blog/2007/02/17/json-and-json-rpc-for-erlang 
+
+sample usage:
+
+>esolr:start_link().
+{ok,<0.148.0>}
+>esolr:add([{doc,[{id,”a”},{name,<<”Look me mom!, I’m searching now”>>}]}]).
+ok
+>esolr:add([{doc,[{id,”b”},{name,<<”Yes, searching from the erlang console”>>}]}]).
+ok
+>esolr:commit().
+ok
+>esolr:search(”search”,[{fields,”*,score”},{sort,[{id,asc}]},{highlight,”name”}]).
+{ok,[{”numFound”,2},{”start”,0},{”maxScore”,0.880075}],
+    [{doc,[{”id”,<<”a”>>},
+           {”sku”,<<”a”>>},
+           {”name”,<<”Look me mom!, I’m searching now”>>},
+           {”popularity”,0},
+           {”timestamp”,<<”2008-02-28T23:42:15.642Z”>>},
+           {”score”,0.628625}]},
+     {doc,[{”id”,<<”b”>>},
+           {”sku”,<<”b”>>},
+           {”name”,<<”Yes, searching from the erlang console”>>},
+           {”popularity”,0},
+           {”timestamp”,<<”2008-02-28T23:43:26.997Z”>>},
+           {”score”,0.880075}]}],
+    [{”highlighting”,
+      {obj,[{”a”,
+             {obj,[{”name”,
+                    [<<”Look me mom!, I’m <em>searching</em> now”>>]}]}},
+            {”b”,
+             {obj,[{”name”,
+                    [<<”Yes, <em>searching</em> from the erlang “…>>]}]}}]}}]} 
+
+
+
+
