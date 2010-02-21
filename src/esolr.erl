@@ -34,7 +34,7 @@
 -export([start/2,stop/1]).
 
 %%API
--export([add/1,search/2,delete/1,commit/0,optimize/0,set_auto_optimize/1,set_auto_commit/1]).
+-export([add/1,search/2,delete/1,commit/0,optimize/0,set_auto_optimize/1,set_auto_commit/1,escape_solr_query_fragment/1]).
 
 
 
@@ -178,6 +178,18 @@ set_auto_commit(AutoCommitMode)  ->
 			gen_server:call(esolr_client,{set_auto_commit,AutoCommitMode});
 		true -> throw(bad_option)
 	end.
+
+
+escape_solr_query_fragment([H|T]) ->
+  if
+    H =< 32; H == $\\; H == $[; H == $]; H == $+ ; H == $- ; H == $!  ; H == $( ; H == $) ; H == $: ; H == $^ ; H == $[ ; H == $] ; H == '\"' ; H == ${ ; H == $} ; H == $~; H == $*; H == $?; H == $|; H == $&; H ==$; ->
+      [$\\,$\\,H| escape_solr_query_fragment(T)];
+    true ->
+      [H | escape_solr_query_fragment(T)]
+
+  end;
+escape_solr_query_fragment([]) ->
+  [].
 	
 	
 	
